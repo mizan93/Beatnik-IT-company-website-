@@ -162,6 +162,13 @@ class AboutUsController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $intro = Intro::findOrFail($id);
+      if (Storage::disk('public')->exists('intro/' . $intro->image)) {
+          Storage::disk('public')->delete('intro/' . $intro->image);
+      }
+      $intro->delete();
+      Toastr::success('intro has been Deleted :)', 'Success');
+      return redirect()->back();
+
     }
 }
